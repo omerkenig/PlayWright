@@ -22,4 +22,7 @@ We suggest that you begin by typing:
 To open last HTML report run:
 npx playwright show-report
 
+
+ Run specific test from specific file:
+npx playwright test tests/UIBasicsTest.spec.ts
 */
