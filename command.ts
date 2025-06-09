@@ -25,4 +25,11 @@ npx playwright show-report
 
  Run specific test from specific file:
 npx playwright test tests/UIBasicsTest.spec.ts
+
+run debug in playwright:
+npx playwright test tests/ChildWindowsHandle.spec.ts --debug
+
+run tool record:
+npx playwright codegen http://rahulshettyacademy.com/loginpagePractise/
+
 */

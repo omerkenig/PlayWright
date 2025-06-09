@@ -21,6 +21,7 @@ test.only('Browser Context Playwright test', async ({ page }) => {
     const signIn = page.locator("#signInBtn");
     const cardTitle = page.locator(".card-body a");
 
+
     console.log(await page.title());
     await userName.fill("OmerKenig");
     await page.locator("input[id='password']").fill("learning");
