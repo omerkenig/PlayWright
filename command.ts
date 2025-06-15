@@ -32,4 +32,7 @@ npx playwright test tests/ChildWindowsHandle.spec.ts --debug
 run tool record:
 npx playwright codegen http://rahulshettyacademy.com/loginpagePractise/
 
+run and see steps :
+npx playwright test tests/getByLabel.spec.ts --ui
+
 */
