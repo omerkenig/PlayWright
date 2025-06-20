@@ -1,118 +1,46 @@
 const {test, expect, request} = require('@playwright/test');
-const loginPayLoad = {userEmail: "Aa010101@aaa.com", userPassword: "Aa010101"};
-const orderPayLoad = {orders: [{country: "Israel", productOrderedId: "67a8df1ac0d3e6622a297ccb"}]};
-let token;
-let orderId;
+const {APiUtils} = require('../Utils/APIUtils');
+const loginPayLoad = {userEmail:"anshika@gmail.com",userPassword:"Iamking@000"};
+const orderPayLoad = {orders:[{country:"Cuba",productOrderedId:"67a8dde5c0d3e6622a297cc8"}]};
 
-test.beforeAll(async () => {
 
-    // Login API
+let response;
+test.beforeAll( async()=>
+{
     const apiContext = await request.newContext();
-    const loginResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login",
-        {
-            data: loginPayLoad
-        })
-    // console.log(loginResponse);
-    expect(loginResponse.ok()).toBeTruthy();
-    const loginResponseJson = await loginResponse.json();
-    token = loginResponseJson.token;
-    console.log(token);
+    const apiUtils = new APiUtils(apiContext,loginPayLoad);
+    response =  await apiUtils.createOrder(orderPayLoad);
 
-    //
-    const orderResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order", {
-        data: orderPayLoad,
-        headers: {
-            'Authorization': token,
-            'Content-type': 'application/json'
-        },
-    })
-    const orderResponseJson = await orderResponse.json();
-    console.log(orderResponseJson);
-    orderId = orderResponseJson.orders[0];
-});
+})
 
-test.only('WebApi -> End To End Test', async ({page}) => {
 
+//create order is success
+test('@API Place the order', async ({page})=>
+{
     page.addInitScript(value => {
 
-        window.localStorage.setItem('token', value);
-    }, token);
-
-    // const userName = page.locator("#userEmail");
-    // const emailAddress = "Aa010101@aaa.com";
-    // const password = page.locator("#userPassword");
-    // const login = page.locator("#login");
-    // const products = page.locator(".card-body");
-    // const cardTitle = page.locator(".card-body b");
-    // const productName = 'ADIDAS ORIGINAL';
-
-    await page.goto('https://rahulshettyacademy.com/client/');
-    // console.log(await page.title());
-    // await userName.fill(emailAddress);
-    // await password.fill("Aa010101");
-    // await login.click();
-
-    await page.locator(".card-body b").first().waitFor();
-
-    // const allTitle = await page.locator(".card-body b").allTextContents();
-    // console.log(allTitle);
-    // const count = await products.count();
-    // for (let i = 0; i < count; i++) {
-    //
-    //     if (await products.nth(i).locator('b').textContent() === productName) {
-    //         // add to cart
-    //         await products.nth(i).locator('.btn.w-10').click();
-    //         break;
-    //     }
-    // }
-
-    // await page.locator("[routerlink *=\"cart\"]").click();
-    // await page.locator("div li").first().waitFor();
-    // const bool = await page.locator("h3:has-text('ADIDAS ORIGINAL')").isVisible();
-    // expect(bool).toBeTruthy();
-    //
-    // await page.locator("text=Checkout").click();
-    // await page.locator("[placeholder*='Country']").pressSequentially("israel");
-    // const dropDown = await page.locator(".ta-results");
-    // await dropDown.waitFor();
-    // const dropDownCount = await dropDown.locator("button").count();
-    //
-    // for (let i = 0; i < dropDownCount; i++) {
-    //     if (await (await dropDown.locator("button").nth(i).textContent()) === " Israel") {
-    //         await dropDown.locator("button").nth(i).click();
-    //         break;
-    //     }
-    // }
-    //
-    // await expect(page.locator(".user__name [type='text']").first()).toHaveText(emailAddress);
-    // await page.locator(".btnn.action__submit").click();
-    //
-    // await expect(page.locator(".hero-primary")).toContainText(" Thankyou for the order.");
-
-    // const orderId = (await page.locator(".em-spacer-1 .ng-star-inserted").textContent()).trim();
-    // console.log(orderId);
-
+        window.localStorage.setItem('token',value);
+    }, response.token );
+    await page.goto("https://rahulshettyacademy.com/client");
     await page.locator("button[routerlink*='myorders']").click();
     await page.locator("tbody").waitFor();
     const rows = await page.locator("tbody tr");
-    // await page.pause();
 
 
-    for (let i = 0; i < await rows.count(); ++i) {
-        const rowOrderId = await rows.nth(i).locator("th").textContent();
-        if (orderId.includes(rowOrderId)) {
+    for(let i =0; i<await rows.count(); ++i)
+    {
+        const rowOrderId =await rows.nth(i).locator("th").textContent();
+        if (response.orderId.includes(rowOrderId))
+        {
             await rows.nth(i).locator("button").first().click();
             break;
         }
     }
-    const orderIdDetails = await page.locator(".col-text").textContent();
-    // await page.pause();
-    expect(orderId.includes(orderIdDetails)).toBeTruthy();
+    const orderIdDetails =await page.locator(".col-text").textContent();
+//await page.pause();
+    expect(response.orderId.includes(orderIdDetails)).toBeTruthy();
 
 });
 
-
-
-
-
-
+//Verify if order created is showing in history page
+// Precondition - create order -

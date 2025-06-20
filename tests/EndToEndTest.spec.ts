@@ -1,11 +1,13 @@
-import {chromium, firefox} from "@playwright/test";
+// import {chromium, firefox} from "@playwright/test";
+
+import {chromium} from "@playwright/test";
 
 const {test, expect} = require('@playwright/test');
 
 test.only('End To End Test', async ({page}) => {
 
 
-    const browser = await chromium.launch({headless: false}); // Will open a visible browser window
+    // const browser = await chromium.launch({headless: false}); // Will open a visible browser window
 
     await page.goto('https://rahulshettyacademy.com/client/');
 
@@ -79,8 +81,3 @@ test.only('End To End Test', async ({page}) => {
     expect(orderId.includes(orderIdDetails)).toBeTruthy();
 
 });
-
-
-
-
-
