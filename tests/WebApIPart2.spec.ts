@@ -2,7 +2,8 @@ import { test, expect, Browser, BrowserContext, Page, Locator } from '@playwrigh
 
 let webContext: BrowserContext;
 
-test.beforeAll(async ({ browser }: { browser: Browser }) => {
+test.beforeAll(async ({ browser }: { browser: Browser }) =>
+{
     const context: BrowserContext = await browser.newContext();
     const page: Page = await context.newPage();
     await page.goto('https://rahulshettyacademy.com/client/');
