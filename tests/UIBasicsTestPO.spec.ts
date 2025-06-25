@@ -1,45 +1,39 @@
 import {chromium, firefox} from "@playwright/test";
+import {DashboardPage} from "../PageObjects/DashboardPage";
 
 const {test, expect} = require('@playwright/test');
+// const {LoginPage} = require('../PageObjects/LoginPage');
+// const {DashboardPage} = require('../PageObjects/DashboardPage');
+import {POManagerPage} from '../PageObjects/POManagerPage';
 
-test.only('Browser Context Playwright test', async ({ page }) => {
-
-
-    const browser = await chromium.launch({ headless: false }); // Will open a visible browser window
-
-    // const context = await browser.newContext();
-    // const context = await browser.newContext({
-    //     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36',
-    // });
-    // const page = await context.newPage();
+test('Browser Context Playwright test', async ({page}) => {
 
 
+    const browser = await chromium.launch({headless: false}); // Will open a visible browser window
 
-    await page.goto('http://rahulshettyacademy.com/loginpagePractise/');
+    const poManager = new POManagerPage(page);
+    const WrongUserName = 'OmerKenig';
+    const WrongPassword = 'learning';
+    const CorrectUserName = 'Aa010110@aaa.com';
+    const CorrectPassword = 'Aa010110';
+    const productName = 'ADIDAS ORIGINAL';
 
-    const userName = page.locator("#username");
-    const signIn = page.locator("#signInBtn");
-    const cardTitle = page.locator(".card-body a");
+    const loginPage = poManager.getLoginPage();
+    const dashBoard = poManager.getDashBoard();
+    const cart = poManager.getCartPaged();
 
+    // const loginPage = new LoginPage(page);
+    // const dashBoard = new DashboardPage(page);
 
+    await loginPage.goTo();
+    await loginPage.validLogin(WrongUserName, WrongPassword);
+    await loginPage.CheckErrorMessage();
+
+    await loginPage.validLogin(CorrectUserName, CorrectPassword);
     console.log(await page.title());
-    await userName.fill("OmerKenig");
-    await page.locator("input[id='password']").fill("learning");
-    await signIn.click();
-    console.log(await page.locator("[style*='block']").textContent());
-    await expect(page.locator("[style*='block']")).toContainText("Incorrect");
 
-    await userName.fill("");
-    await userName.fill("rahulshettyacademy");
-    await signIn.click();
-
-    // await page.waitForLoadState('networkidle');
-    await page.locator(".card-body a").first().waitFor();
-    // await page.locator(".card-body a").first().textContent();
-    // console.log(await page.locator(".card-body a").nth(1).textContent());
-    // const allTitle = await cardTitle.allTextContents();
-    const allTitle = await page.locator(".card-body a").allTextContents();
-    console.log(allTitle);
+    await dashBoard.searchProductAndToCart(productName);
+    await dashBoard.navigateToCart();
 
 
 });

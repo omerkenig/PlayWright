@@ -1,41 +1,41 @@
 import {Page, Locator, expect} from "@playwright/test";
 
-export class LoginPage {
+export class DashboardPage {
 
     page: Page;
-    signInBtn: Locator;
-    userName: Locator;
-    cardTitle: Locator;
-    password: Locator;
-    errorMessage: Locator;
+    products: Locator;
+    cardText: Locator;
+    cart: Locator;
+
 
     constructor(page) {
 
         this.page = page;
-        this.signInBtn = page.locator("#signInBtn");
-        this.userName = page.locator("#username");
-        this.cardTitle = page.locator(".card-body a");
-        this.password = page.locator("#password");
-        this.errorMessage = page.locator(".alert.alert-danger")
+        this.products = page.locator(".card-body");
+        this.cardText = page.locator(".card-body b");
+        this.cart = page.locator("[routerlink=\"/dashboard/cart\"]");
+
     }
 
-    async goTo() {
-        await this.page.goto('http://rahulshettyacademy.com/loginpagePractise/');
+    async searchProductAndToCart(productName: string) {
+
+        await this.cardText.first().waitFor();
+        const allTitle = this.cardText.allTextContents();
+        console.log(allTitle);
+        const count = await this.products.count();
+        for (let i = 0; i < count; i++) {
+
+            if (await this.products.nth(i).locator('b').textContent() === productName) {
+                // add to cart
+                await this.products.nth(i).locator('text= Add To Cart').click();
+                break;
+            }
+        }
     }
 
-    async validLogin(userName, password) {
-        await this.userName.fill(userName);
-        await this.password.fill(password);
-        await this.signInBtn.click();
-    }
+    async navigateToCart() {
 
-    async CheckErrorMessage() {
-       const errorText =  await this.errorMessage.textContent();
-       console.log(errorText);
-        await expect(this.errorMessage).toContainText("Incorrect");
-
-        // await expect(errorText.
-
+        await this.cart.click();
     }
 
 }
