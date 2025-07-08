@@ -1,0 +1,28 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omerkenig/PlayWright.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/omerkenig/PlayWright/issues"
+  },
+  "homepage": "https://github.com/omerkenig/PlayWright#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/exceljs": "^0.5.3",
+    "@types/node": "^22.15.32"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "playwright": "^1.53.1"
+  }
+}
