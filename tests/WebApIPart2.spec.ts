@@ -2,7 +2,7 @@ import { test, expect, Browser, BrowserContext, Page, Locator } from '@playwrigh
 
 let webContext: BrowserContext;
 
-test.beforeAll(async ({ browser }: { browser: Browser }) =>
+test.beforeAll(async ({ browser }) =>
 {
     const context: BrowserContext = await browser.newContext();
     const page: Page = await context.newPage();
@@ -22,7 +22,7 @@ test.beforeAll(async ({ browser }: { browser: Browser }) =>
     webContext = await browser.newContext({ storageState: 'state.json' });
 });
 
-test.only('End To End Test', async () => {
+test('End To End Test', async () => {
     const page: Page = await webContext.newPage();
     await page.goto('https://rahulshettyacademy.com/client/');
 
@@ -90,7 +90,7 @@ test.only('End To End Test', async () => {
     expect(orderIdDetails && orderId.includes(orderIdDetails)).toBeTruthy();
 });
 
-test.only('Test case 2', async () => {
+test('Test case 2', async () => {
 
 
 

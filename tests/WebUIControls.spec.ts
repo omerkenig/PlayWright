@@ -2,9 +2,9 @@ import {chromium} from "@playwright/test";
 
 const {test, expect} = require('@playwright/test');
 
-test('@Web UI Controls', async ({page}) => {
+test('Web UI Controls', async ({page}) => {
 
-    const browser = await chromium.launch({headless: false}); // Will open a visible browser window
+    // const browser = await chromium.launch({headless: false}); // Will open a visible browser window
 
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName = page.locator('#username');

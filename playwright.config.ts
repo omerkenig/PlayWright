@@ -1,16 +1,9 @@
-import {chromium, defineConfig, devices} from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-    use: {
-        ignoreHTTPSErrors: true,
-    },
-});
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-const config = ({
     testDir: './tests',
+    retries: 2,
+    workers: 5,
     timeout: 30 * 1000,
     expect: {
         timeout: 5000,
@@ -18,12 +11,12 @@ const config = ({
     reporter: 'html',
     use: {
         browserName: 'chromium',
-        headless : false,
-        screenshot : 'on',
-        trace : 'retain-on-failure',//off, on
-
-        /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+        headless: false,
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+        ignoreHTTPSErrors: true,
+        permissions: ['geolocation'],
+        trace: 'retain-on-failure',
+        // ...devices['Galaxy S24 landscape'],
     },
 });
-
-module.exports = config

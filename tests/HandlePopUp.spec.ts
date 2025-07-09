@@ -4,7 +4,7 @@ test("Popup validations", async ({page}) => {
 
     await page.goto('https://rahulshettyacademy.com/AutomationPractice/');
 
-    await  page.pause();
+    //    await page.pause();
 
     page.on('dialog', dialog => dialog.accept());
     await page.locator('#confirmbtn').click();

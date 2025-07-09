@@ -1,14 +1,16 @@
 import {chromium, firefox} from "@playwright/test";
 import {DashboardPage} from "../PageObjects/DashboardPage";
 
-const {test, expect} = require('@playwright/test');
+import {test, expect} from '@playwright/test';
 // const {LoginPage} = require('../PageObjects/LoginPage');
 // const {DashboardPage} = require('../PageObjects/DashboardPage');
-import {POManager} from '../PageObjects/POManager';
+const {POManager} = require('../pageobjects/POManager');
 const dataSet = JSON.parse(JSON.stringify(require('../Json/Int/Int_placeOrder.json')));
+//const dataSet = JSON.parse(JSON.stringify(require('../Json/'+env+'/Int_placeOrder.json')));
 // require('../Json/'+env+'/Int_placeOrder.json')
 
-test('Browser Context Playwright test', async ({page}) => {
+test("@Web Client App login", async ({page}) =>
+{
 
     const poManager = new POManager(page);
     //js file- Login js, DashboardPage
@@ -65,13 +67,13 @@ test('Browser Context Playwright test', async ({page}) => {
 
 });
 
-test('First Playwright test', async ({page}) => {
-
-    // chrome
-    await page.goto('https://www.google.com/');
-
-    // get title - assertion
-    console.log(await page.title());
-    await expect(page).toHaveTitle("Google");
-
-});
+// test('First Playwright test', async ({page}) => {
+//
+//     // chrome
+//     await page.goto('https://www.google.com/');
+//
+//     // get title - assertion
+//     console.log(await page.title());
+//     await expect(page).toHaveTitle("Google");
+//
+// });

@@ -2,7 +2,7 @@ import {chromium, firefox} from "@playwright/test";
 
 const {test, expect} = require('@playwright/test');
 
-test.only('Browser Context Playwright test', async ({ page }) => {
+test('Browser Context Playwright test', async ({ page }) => {
 
 
     const browser = await chromium.launch({ headless: false }); // Will open a visible browser window

@@ -1,6 +1,4 @@
-const {test, expect} = require('@playwright/test');
-
-
+import { test, expect } from '@playwright/test';
 
 //test.use({ browserName: 'webkit'});
 test('@Web Browser Context-Validating Error login', async ({browser})=>

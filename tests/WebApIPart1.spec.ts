@@ -10,6 +10,7 @@ test.beforeAll( async()=>
     const apiContext = await request.newContext();
     const apiUtils = new APiUtils(apiContext,loginPayLoad);
     response =  await apiUtils.createOrder(orderPayLoad);
+    const env = 'Int'
 
 })
 

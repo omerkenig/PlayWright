@@ -3,7 +3,7 @@ import {text} from "node:stream/consumers";
 
 const {test, expect} = require('@playwright/test');
 
-test.only('Child Windows Handle', async ({browser}) => {
+test('Child Windows Handle', async ({browser}) => {
 
     const context = await browser.newContext();
     const page = await context.newPage();

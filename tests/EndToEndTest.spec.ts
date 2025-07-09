@@ -4,7 +4,7 @@ import {chromium} from "@playwright/test";
 
 const {test, expect} = require('@playwright/test');
 
-test.only('End To End Test', async ({page}) => {
+test('End To End Test', async ({page}) => {
 
 
     // const browser = await chromium.launch({headless: false}); // Will open a visible browser window
@@ -67,7 +67,7 @@ test.only('End To End Test', async ({page}) => {
     await page.locator("button[routerlink*='myorders']").click();
     await page.locator("tbody").waitFor();
     const rows = await page.locator("tbody tr");
-    await page.pause();
+//    await page.pause();
 
 
     for (let i = 0; i < await rows.count(); ++i) {
