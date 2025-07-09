@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "regression" : "npx playwright test",
+    "webTest": "npx playwright test --grep @Web",
+    "APIOTest": "npx playwright test --grep @API"
+
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/omerkenig/PlayWright.git"
@@ -17,9 +22,10 @@
   },
   "homepage": "https://github.com/omerkenig/PlayWright#readme",
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.53.2",
     "@types/exceljs": "^0.5.3",
     "@types/node": "^22.15.32",
+    "allure-playwright": "^3.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },

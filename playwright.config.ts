@@ -4,11 +4,13 @@ export default defineConfig({
     testDir: './tests',
     retries: 2,
     workers: 5,
+
     timeout: 30 * 1000,
     expect: {
         timeout: 5000,
     },
-    reporter: 'html',
+    // reporter: 'html',
+    reporter: [["line"], ["allure-playwright"]],
     use: {
         browserName: 'chromium',
         headless: false,
