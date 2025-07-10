@@ -1,57 +1,85 @@
 interface ApiContext {
-    post: (url: string, options: { data: any; headers?: Record<string, string> }) => Promise<any>;
+    post: (
+        url: string,
+        options: {
+            data: any;
+            headers?: Record<string, string>;
+        }
+    ) => Promise<{ json: () => Promise<any> }>;
 }
 
 interface LoginPayload {
-    [key: string]: any;
+    userEmail: string;
+    userPassword: string;
 }
 
 interface OrderPayload {
-    [key: string]: any;
+    orders: {
+        country: string;
+        productOrderedId: string;
+    }[];
 }
 
-interface Response {
+interface CreateOrderResponse {
     token: string;
-    orderId?: string;
+    orderId: string;
 }
 
-class APiUtils {
+class ApiUtils {
     private apiContext: ApiContext;
-    private loginPayLoad: LoginPayload;
+    private loginPayload: LoginPayload;
 
-    constructor(apiContext: ApiContext, loginPayLoad: LoginPayload) {
+    constructor(apiContext: ApiContext, loginPayload: LoginPayload) {
         this.apiContext = apiContext;
-        this.loginPayLoad = loginPayLoad;
+        this.loginPayload = loginPayload;
     }
 
     async getToken(): Promise<string> {
-        const loginResponse = await this.apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login", {
-            data: this.loginPayLoad
-        });
+        const loginResponse = await this.apiContext.post(
+            "https://rahulshettyacademy.com/api/ecom/auth/login",
+            {
+                data: this.loginPayload,
+            }
+        );
+
         const loginResponseJson: { token: string } = await loginResponse.json();
-        const token: string = loginResponseJson.token;
-        console.log(token);
+        const token = loginResponseJson.token;
+
+        if (!token) {
+            throw new Error("Token not found in login response.");
+        }
+
+        console.log("Token:", token);
         return token;
     }
 
-    async createOrder(orderPayLoad: OrderPayload): Promise<Response> {
-        let response: Response = { token: '' };
-        response.token = await this.getToken();
-        const orderResponse = await this.apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order", {
-            data: orderPayLoad,
-            headers: {
-                'Authorization': response.token,
-                'Content-Type': 'application/json'
+    async createOrder(orderPayload: OrderPayload): Promise<CreateOrderResponse> {
+        const token = await this.getToken();
+
+        const orderResponse = await this.apiContext.post(
+            "https://rahulshettyacademy.com/api/ecom/order/create-order",
+            {
+                data: orderPayload,
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "application/json",
+                },
             }
-        });
+        );
 
         const orderResponseJson: { orders: string[] } = await orderResponse.json();
-        console.log(orderResponseJson);
-        const orderId: string = orderResponseJson.orders[0];
-        response.orderId = orderId;
 
-        return response;
+        if (!orderResponseJson.orders?.length) {
+            throw new Error("Order ID not found in create-order response.");
+        }
+
+        const orderId = orderResponseJson.orders[0];
+
+        return {
+            token,
+            orderId,
+        };
     }
 }
 
-export { APiUtils };
+export { ApiUtils };

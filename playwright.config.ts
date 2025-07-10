@@ -1,4 +1,10 @@
-import { defineConfig, devices } from '@playwright/test';
+import {defineConfig, devices} from '@playwright/test';
+import {getBaseUrl} from './utils/envHelper';
+
+
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
     testDir: './tests',
@@ -14,6 +20,11 @@ export default defineConfig({
     use: {
         browserName: 'chromium',
         headless: false,
+        viewport: null,
+        baseURL: getBaseUrl(),
+        launchOptions: {
+            args: ['--start-maximized']
+        },
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
         ignoreHTTPSErrors: true,

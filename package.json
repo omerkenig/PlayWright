@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "regression" : "npx playwright test",
+    "regression": "npx playwright test",
     "webTest": "npx playwright test --grep @Web",
     "APIOTest": "npx playwright test --grep @API"
-
   },
   "repository": {
     "type": "git",
@@ -30,6 +29,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "dotenv": "^17.2.0",
     "exceljs": "^4.4.0"
   }
 }

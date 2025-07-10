@@ -1,14 +1,16 @@
 // import {chromium, firefox} from "@playwright/test";
+import { getBaseUrl, getEnv } from '../utils/envHelper';
+const {test, expect} = require('@playwright/test');
 
 import {chromium} from "@playwright/test";
 
-const {test, expect} = require('@playwright/test');
 
-test('End To End Test', async ({page}) => {
+test('End To End Test on ${getEnv()}', async ({page}) => {
 
 
     // const browser = await chromium.launch({headless: false}); // Will open a visible browser window
-
+    await page.goto(`${getBaseUrl()}`);
+    console.log(getEnv);
     await page.goto('https://rahulshettyacademy.com/client/');
 
     const userName = page.locator("#userEmail");
