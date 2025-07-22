@@ -1,4 +1,4 @@
-PlayWright
+#PlayWright
 End to End Playwright tutorials on JavaScript & TypeScript.
 
 Project Structure
