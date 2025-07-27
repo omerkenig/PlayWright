@@ -2,7 +2,7 @@ import {defineConfig, devices} from '@playwright/test';
 import {getBaseUrl} from './utils/envHelper';
 
 
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ export default defineConfig({
         browserName: 'chromium',
         headless: false,
         viewport: null,
-        baseURL: getBaseUrl(),
+        baseURL: process.env.BASE_URL,
         launchOptions: {
             args: ['--start-maximized']
         },
